@@ -5,67 +5,52 @@ import { Types } from 'mongoose';
 
 export const getStudentDashboardData = async (req: Request, res: Response) => {
   try {
+    // ---- ADD THIS GUARD CLAUSE ----
+    // Check if the user is authenticated and the user object exists on the request.
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+    // Now that we've checked, TypeScript knows req.user is not undefined.
     const studentId = req.user._id;
 
-    // find all progress documents for the current student and populate them.
+    // Find all progress documents for the current student and populate them.
     const studentProgress = await Progress.find({ student: studentId })
       .populate({
         path: 'course',
-        select: 'title description thumbnailUrl instructorId',
-        populate: {
-          path: 'instructorId',
-          select: 'name',
-        },
+        // Only get the necessary fields from the course document.
+        select: 'title description thumbnail url instructorId lessons'
+      })
+      .populate({
+        path: 'course.instructorId',
+        select: 'name',
       })
       .populate({
         path: 'lessonProgress.lesson',
         select: 'title',
       });
 
-    // create a simplified dashboard data structure.
-    const dashboardData = {
-      enrolledCourses: studentProgress.map(progress => {
-        const course = progress.course;
-        const totalLessons = course.lessons?.length || 1;
-        const completedLessons = progress.lessonProgress.filter(lp => lp.completed).length;
-        const completionPercentage = Math.floor((completedLessons / totalLessons) * 100);
+    // Create a simplified dashboard data structure.
+    const dashboardData = studentProgress.map((progress) => {
+      const course = progress.course as any; // Temporary cast for better intellisense
+      const totalLessons = course.lessons?.length || 0;
+      const completedLessons = progress.lessonProgress.filter((lp) => lp.completed).length;
 
-        return {
-          courseId: course._id,
-          title: course.title,
-          description: course.description,
-          instructorName: course.instructorId?.name,
-          thumbnailUrl: course.thumbnailUrl,
-          completionPercentage,
-          totalLessons,
-          completedLessons,
-        };
-      }),
-      // This is a simulated list of certificates. In a real app, this would be a separate model.
-      certificates: [{
-        title: 'Mastering TypeScript',
-        completionDate: new Date('2023-01-15'),
-        downloadUrl: '/certificates/mastering-typescript-cert.pdf'
-      }],
-      // The recent activity is derived from the student's progress.
-      recentActivity: studentProgress.flatMap(progress =>
-        progress.lessonProgress
-          .filter(lp => lp.completed)
-          .map(lp => ({
-            type: 'lesson_completed',
-            courseTitle: progress.course.title,
-            lessonTitle: lp.lesson?.title,
-            date: lp.completedDate,
-          }))
-      ).sort((a, b) => b.date.getTime() - a.date.getTime()), // Sort by most recent
-    };
+      return {
+        course,
+        totalLessons,
+        completedLessons,
+        completionPercentage: totalLessons > 0 ? Math.floor((completedLessons / totalLessons) * 100) : 0,
+      };
+    });
 
     res.status(200).json(dashboardData);
+
   } catch (error) {
-    console.error('Error fetching student dashboard:', error);
-    res.status(500).json({ message: 'Internal server error.' });
+    console.error('Error fetching dashboard data:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 /**
  * Enrolls a student in a new course.
@@ -73,6 +58,12 @@ export const getStudentDashboardData = async (req: Request, res: Response) => {
  */
 export const enrollInCourse = async (req: Request, res: Response) => {
   try {
+    // FIX: Add a check to ensure req.user exists before using it.
+    // This handles the 'req.user is possibly undefined' error and improves security.
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated.' });
+    }
+    
     const { courseId } = req.body;
     const studentId = req.user._id;
 
@@ -89,42 +80,47 @@ export const enrollInCourse = async (req: Request, res: Response) => {
     }
 
     // Create a new Progress document for the student.
+    const lessonProgress = course.lessons.map((lessonId) => ({
+      // FIX: Add .toString() here to convert the ObjectId to a string.
+      lesson: lessonId.toString(),
+      completed: false,
+    }));
+
     const newProgress = new Progress({
       student: studentId,
       course: courseId,
-      // Initialize lesson progress with all lessons from the course.
-      lessonProgress: course.lessons.map((lessonId: Types.ObjectId) => ({
-        lesson: lessonId,
-        completed: false,
-      })),
+      lessonProgress,
     });
 
     await newProgress.save();
 
-    res.status(201).json({ message: 'Enrollment successful.', progress: newProgress });
+    res.status(201).json({ message: 'Enrollment successful!', progress: newProgress });
+
   } catch (error) {
-    console.error('Error enrolling in course:', error);
-    res.status(500).json({ message: 'Internal server error.' });
+    console.error('Error during enrollment:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-/**
- * Gets a student's recent learning activity.
- * This is for the GET /api/student/activity API.
- */
 export const getRecentActivity = async (req: Request, res: Response) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+
     const studentId = req.user._id;
 
     // Find all progress documents for the student.
     const studentProgress = await Progress.find({ student: studentId })
       .populate({
         path: 'course',
-        select: 'title', // Only need the course title
+        // Only get the course title.
+        select: 'title',
       })
       .populate({
         path: 'lessonProgress.lesson',
-        select: 'title', // Only need the lesson title
+        // Only get the lesson title.
+        select: 'title',
       })
       .sort('-updatedAt'); // Sort by the most recently updated progress document
 
@@ -134,15 +130,19 @@ export const getRecentActivity = async (req: Request, res: Response) => {
         .filter(lp => lp.completed)
         .map(lp => ({
           type: 'lesson_completed',
-          courseTitle: progress.course.title,
-          lessonTitle: lp.lesson?.title,
+          courseTitle: (progress.course as any)?.title,
+          lessonTitle: (lp.lesson as any)?.title,
+          // Correct the type definition for the date
           date: lp.completedDate,
         }))
-    ).sort((a, b) => b.date.getTime() - a.date.getTime());
+    );
+
+    activityFeed.sort((a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0));
 
     res.status(200).json(activityFeed);
+
   } catch (error) {
     console.error('Error fetching recent activity:', error);
-    res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
