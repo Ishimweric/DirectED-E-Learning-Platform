@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IQuestion {
+    _id: mongoose.Types.ObjectId;
     questionText: string;
     questionType: string;
     options: string[]; // array of all answers
