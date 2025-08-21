@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { getStudentDashboardData, enrollInCourse, getRecentActivity } from '../controllers/studentDashboardController';
+import { 
+  getStudentDashboardData, 
+  enrollInCourse, 
+  getRecentActivity } from '../controllers/studentDashboardController';
 // import { protect } from '../middleware/auth'
 
 const router = Router();

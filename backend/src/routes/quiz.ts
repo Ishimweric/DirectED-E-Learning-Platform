@@ -1,19 +1,16 @@
 import { Router } from 'express';
-import { createQuiz, getQuizByLessonId, submitQuiz, getQuizById } from '../controllers/quizController';
+import { createQuiz, getQuizById } from '../controllers/quizController';
+
 // import { protect, authorize } from '../middleware/auth';
 
 const router = Router();
 
+// Route to create a new quiz (instructor-facing)
 // router.post('/', protect, authorize('instructor', 'admin'), createQuiz);
 router.post('/', createQuiz);
 
-// router.get('/lesson/:lessonId', protect, getQuizByLessonId);
-router.get('/lesson/:lessonId', getQuizByLessonId);
-
+// Route to get a specific quiz by its ID
 // router.get('/:quizId', protect, getQuizById);
 router.get('/:quizId', getQuizById);
-
-// router.post('/submit/:quizId', protect, submitQuiz);
-router.post('/submit/:quizId', submitQuiz);
 
 export default router;
