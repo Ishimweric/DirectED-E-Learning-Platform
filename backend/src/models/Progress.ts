@@ -1,57 +1,60 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from 'mongoose';
 
-// this is a sub-document that will be stored within the "quizAttempts" aray
-export interface IQuizAttempt {
-    quizId: mongoose.Schema.Types.ObjectId,
-    score: number,
-    timestamp:Date
+interface LessonProgress {
+  lesson: mongoose.Schema.Types.ObjectId;
+  completed: boolean;
+  completionDate?: Date;
 }
 
-// interface which represents the structure of a single progress document in the MongoDB
 export interface IProgress extends Document {
-    user:mongoose.Schema.Types.ObjectId,
-    course: mongoose.Schema.Types.ObjectId,
-    completedLessons: mongoose.Schema.Types.ObjectId[],
-    quizAttempts: IQuizAttempt[]
+  student: mongoose.Schema.Types.ObjectId;
+  course: mongoose.Schema.Types.ObjectId;
+  lessonProgress: LessonProgress[];
+  completionPercentage: number;
+  lastUpdated: Date;
 }
 
-// schema which defines the structure and data types for the Progress collection
 const ProgressSchema: Schema = new Schema({
-    // 'user" field act as a reference to the User collection
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-        unique: true,
+
+  student: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+
+  course: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course',
+    required: true,
+  },
+  
+  lessonProgress: [{
+    lesson: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Lesson',
+      required: true,
     },
-    // "course" field is a reference to the 'Course' collection.
-    course: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Course",
-        required: true,
+    completed: {
+      type: Boolean,
+      default: false,
     },
-    // "completedLessons" is an array of ObjectId references to the "Lesson' collection
-    // and this allows us to track which lessons the user has been completed
-    completedLessons: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Lesson",
-    }],
-    // "quizAttempts" is an array of the IQuizAttempt subdocuments defined above.
-    quizAttempts: [{
-        quizId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Quiz",
-            required: true,
-        },
-        score: {
-            type: Number,
-            required: true,
-        },
-        timestamp: {
-            type: Date,
-            default: Date.now,
-        }
-    }]
+    completionDate: {
+      type: Date,
+    },
+  }],
+  
+  completionPercentage: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 100,
+  },
+  
+  lastUpdated: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-export default mongoose.model<IProgress>('Progress', ProgressSchema);
+const Progress = mongoose.model<IProgress>('Progress', ProgressSchema);
+export default Progress;
