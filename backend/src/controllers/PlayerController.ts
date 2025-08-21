@@ -50,37 +50,44 @@ export const markLessonAsCompleted = async (req: Request, res: Response) => {
   }
 };
 
-// handles the submission of the quiz
-// it calculates the score and saves the attempt to the user's progress document
-export const submitQuiz = async (req: Request, res: Response) => {
+export const submitQuiz = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { quizId, answers, courseId } = req.body;
     const userId = (req as any).user.id;
 
-    // fetch the quiz to validate the answers
+    // Fetch the quiz to validate the answers
     const quiz = await Quiz.findById(quizId);
+
     if (!quiz) {
-      return res.status(404).json({ message: "Quiz not found"});
+      return res.status(404).json({ message: "Quiz not found" });
     }
 
     let score = 0;
-    // go through answers and callucates the score
-    answers.forEach((answer:any)=> {
-      const question = quiz.questions.find(q => q._id.toString() ===answer.questionId);
+
+    // Go through answers and calculate the score
+    answers.forEach((answer: any) => {
+      const question = quiz.questions.find(
+        (q) => q._id?.toString() === answer.questionId
+      );
       if (question && question.correctAnswer === answer.submittedAnswer) {
         score++;
       }
     });
 
-    // find and update the user's progress.
+    // Find and update the user's progress.
     const progress = await Progress.findOneAndUpdate(
       { user: userId, course: courseId },
       { $push: { quizAttempts: { quizId, score, timestamp: new Date() } } },
-      { new: true, upsert: true } //craete new if no one found
+      { new: true, upsert: true } // Upsert creates a new document if one is not found
     );
 
-    res.status(200).json({ message: 'Quiz submitted successfully.', score, progress });
+    return res.status(200).json({
+      message: "Quiz submitted successfully.",
+      score,
+      progress,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error.', error });
+    console.error("Error submitting quiz:", error);
+    return res.status(500).json({ message: "Failed to submit quiz!", error });
   }
 };

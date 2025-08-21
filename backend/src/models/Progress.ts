@@ -8,12 +8,20 @@ interface IProgressLesson extends Document {
   completedDate?: Date; 
 }
 
+interface IQuizAttempt {
+  quizId: Types.ObjectId;
+  score: number;
+  timestamp: Date;
+}
+
 // Define the main document interface
 export interface IProgress extends Document {
   student: Types.ObjectId;
   course: Types.ObjectId;
   lessonProgress: IProgressLesson[];
   updatedAt: Date;
+  completedLessons: Types.ObjectId[];
+  quizAttempts: IQuizAttempt[];
 }
 
 // Define the schema for the sub-document

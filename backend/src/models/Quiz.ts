@@ -1,6 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
 interface IQuestion {
+  _id?: Types.ObjectId;
   questionText: string;
   options: string[];
   correctAnswer: string;
