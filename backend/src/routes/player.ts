@@ -4,10 +4,11 @@ import {
   markLessonAsCompleted, 
   submitQuiz,
   getCourseProgress,
+  updateCourseProgress, // Added the new function here
   getQuizAttempts,
 } from "../controllers/PlayerController";
 
-// player-specific quiz-related imports
+// Player-specific quiz-related imports
 import { getQuizByLessonId } from "../controllers/quizController";
 
 
@@ -23,6 +24,9 @@ router.post("/progress", markLessonAsCompleted);
 
 // Route for getting overall course progress
 router.get("/progress/course/:id", getCourseProgress);
+
+// Route for updating overall course progress
+router.put("/progress/course/:id", updateCourseProgress);
 
 // Route for submitting a quiz
 router.post("/quiz/submit", submitQuiz);

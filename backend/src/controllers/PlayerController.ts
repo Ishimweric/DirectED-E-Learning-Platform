@@ -128,6 +128,34 @@ export const getCourseProgress = async (req: Request, res: Response) => {
   }
 };
 
+// Controller function to update a user's course progress.
+export const updateCourseProgress = async (req: Request, res: Response) => {
+  try {
+    const { courseId } = req.params;
+    const userId = (req as any).user.id;
+    const { completedLessons, quizAttempts } = req.body;
+
+    // Find the user's progress for the course and update it.
+    // The $addToSet operator ensures that lessons are not duplicated if already completed.
+    // The $push with $each ensures new quiz attempts are added to the array.
+    const updatedProgress = await Progress.findOneAndUpdate(
+      { user: userId, course: courseId },
+      {
+        $addToSet: { completedLessons: { $each: completedLessons || [] } },
+        $push: { quizAttempts: { $each: quizAttempts || [] } }
+      },
+      { new: true, upsert: true } // upsert: true will create the document if it doesn't exist
+    );
+
+    res.status(200).json({
+      message: "Course progress updated successfully!",
+      progress: updatedProgress,
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: "Failed to update course progress!", error: err.message });
+  }
+};
+
 // Controller function to fetch a quiz for a specific lesson.
 // This needs to retrieve the quiz data from the database.
 export const getQuizByLessonId = async (req: Request, res: Response) => {
