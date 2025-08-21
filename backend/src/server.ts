@@ -1,23 +1,30 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import connectDB from "./config/db";
-import playerRoutes from './routes/player';
 
-dotenv.config();
+// Import the route files
+import playerRoutes from "./routes/player";
+import quizRoutes from './routes/quiz';
+import studentDashboardRoutes from './routes/studentDashboard';
+import connectDB from './config/db';
 
 const app = express();
 
-// Connect to the database
-connectDB();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api/player", playerRoutes);
+// MongoDB Connection
+connectDB();
+
+app.use('/api/player', playerRoutes);
+app.use('/api/quizzes', quizRoutes);
+app.use('/api/student', studentDashboardRoutes);
+
+app.get('/', (req, res) => {
+  res.send('Course Platform API is running.');
+});
 
 const PORT = process.env.PORT || 3500;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
