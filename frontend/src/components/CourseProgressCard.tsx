@@ -22,7 +22,7 @@ const CourseProgressCard: React.FC<Props> = ({ data, score }) => {
         </div>
         {/* Course Info */}
         <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 dark:text-gray-100">{course.title}</h3>
+          <h3 className="font-bold text-gray-900 dark:text-gray-100">{course.title}</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             {completionPercentage ? `${completionPercentage}% Completed` : 'In Progress'}
           </p>
@@ -30,8 +30,9 @@ const CourseProgressCard: React.FC<Props> = ({ data, score }) => {
       </div>
       {/* Score or Progress Circle */}
       {score && (
-        <div className="p-2 font-bold rounded-full text-white text-sm bg-blue-500 dark:bg-blue-600">
-          {score}
+        <div className="py-2 px-4 font-semibold rounded-md text-gray-800 dark:text-white text-sm bg-[#FECF63] dark:bg-yellow-600 flex flex-col items-center justify-center">
+          <span>Score</span>
+          <span>{score}</span>
         </div>
       )}
       {!score && completionPercentage > 0 && completionPercentage < 100 && (

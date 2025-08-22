@@ -6,12 +6,11 @@ import MyProgressChart from '../components/MyProgressChart';
 import Calendar from '../components/Calendar';
 
 const StudentDashboard: React.FC = () => {
-  const { user } = useAuth(); // Assume user object contains a token
+  const { user } = useAuth();
   const { state, fetchDashboardData } = useDashboard();
   const { completedCourses, inProgressCourses, summary, isLoading, error } = state;
 
   useEffect(() => {
-    // Check if the user is authenticated before fetching data
     if (user?.token) {
       fetchDashboardData(user.token);
     }
@@ -20,7 +19,7 @@ const StudentDashboard: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <p>Loading dashboard...</p>
+        <p className="text-green-600 font-bold animate-pulse">Loading dashboard...</p>
       </div>
     );
   }
@@ -28,7 +27,7 @@ const StudentDashboard: React.FC = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen dark:bg-gray-900 text-red-500">
-        <p>Error: {error}</p>
+        <p>Sorry it's our fault!</p>
       </div>
     );
   }
@@ -36,14 +35,12 @@ const StudentDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 sm:p-6 lg:p-8 transition-colors duration-200">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column for calendar and overall progress chart */}
+        {/* left Column for calendar and overall progress chart */}
         <div className="col-span-1 flex flex-col space-y-6">
-          <MyProgressChart summary={summary} />
-
-          {/* Placeholder for the Calendar */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md">
+          <div className="bg-white dark:bg-gray-800 rounded-lg">
             <Calendar/>
           </div>
+          <MyProgressChart summary={summary} />
         </div>
 
         {/* Right Column for course lists */}
@@ -52,7 +49,7 @@ const StudentDashboard: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-colors duration-200">
             <h2 className="text-xl font-bold mb-4 flex justify-between items-center">
               <span>Completed Courses</span>
-              <span className="text-sm font-medium text-blue-500 dark:text-blue-400 cursor-pointer">
+              <span className="text-sm font-medium text-blue-500 dark:text-blue-400 cursor-pointer hover:text-blue-600 transition-all duration-300">
                 See All
               </span>
             </h2>
@@ -71,7 +68,7 @@ const StudentDashboard: React.FC = () => {
 
           {/* Progress Per Course Section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-colors duration-200">
-            <h2 className="text-xl font-bold mb-4">Progress Per Course</h2>
+            <h2 className="text-xl font-bold mb-4">Overall Progress</h2>
             <div className="space-y-4">
               {inProgressCourses.length > 0 ? inProgressCourses.map((item) => (
                 <CourseProgressCard
