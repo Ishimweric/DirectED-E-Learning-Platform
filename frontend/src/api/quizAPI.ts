@@ -72,7 +72,7 @@ export const submitQuizAnswers = async (answers: ISubmittedAnswer[]): Promise<nu
   answers.forEach(submittedAnswer => {
     const questionId = submittedAnswer.questionId;
     const submittedValue = submittedAnswer.submittedAnswer;
-    const correctValue = mockAnswers[questionId];
+    const correctValue = (mockAnswers as any)[questionId];
 
     if (Array.isArray(submittedValue) && Array.isArray(correctValue)) {
       // For multi-select questions

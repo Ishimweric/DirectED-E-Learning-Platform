@@ -6,12 +6,14 @@ import React from 'react';
 import StudentDashboard from './pages/StudentDashboard';
 import { AuthProvider } from './contexts/AuthContext';
 import { DashboardProvider } from './contexts/DashboardContext';
+import QuizPage from './pages/QuizPage';
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <DashboardProvider>
-        <StudentDashboard />
+        {/* <StudentDashboard /> */}
+        <QuizPage/>
       </DashboardProvider>
     </AuthProvider>
   );
