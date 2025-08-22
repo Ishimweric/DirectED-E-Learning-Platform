@@ -120,7 +120,7 @@ const QuestionDisplay: React.FC<QuestionDisplayProps> = ({
 
   return (
     <div className={`p-6 border rounded-xl shadow-lg transition-colors duration-300 ${getBackgroundColor()}`}>
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex justify-between items-start mb-2">
         <h3 className="text-xl font-bold text-gray-800">Question {questionNumber}</h3>
         {submitted && (
           <span className={`px-3 py-1 rounded-full text-sm font-semibold ${isCorrect ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
@@ -131,7 +131,7 @@ const QuestionDisplay: React.FC<QuestionDisplayProps> = ({
       <p className="text-lg text-gray-700 mb-4">{question.questionText}</p>
       {renderOptions()}
       {submitted && correctAnswer && (
-        <div className="mt-4 p-4 rounded-lg bg-gray-100 border-l-4 border-gray-400">
+        <div className="mt-2 p-2 rounded-lg bg-gray-100 border-l-4 border-gray-400">
           <p className="font-semibold text-gray-700">Correct Answer(s):</p>
           <p className="text-gray-600">{Array.isArray(correctAnswer) ? correctAnswer.join(', ') : correctAnswer}</p>
         </div>
