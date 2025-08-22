@@ -5,12 +5,10 @@ import { Types } from 'mongoose';
 
 export const getStudentDashboardData = async (req: Request, res: Response) => {
   try {
-    // ---- ADD THIS GUARD CLAUSE ----
     // Check if the user is authenticated and the user object exists on the request.
     if (!req.user) {
       return res.status(401).json({ message: 'User not authenticated' });
     }
-    // Now that we've checked, TypeScript knows req.user is not undefined.
     const studentId = req.user._id;
 
     // Find all progress documents for the current student and populate them.
@@ -18,32 +16,46 @@ export const getStudentDashboardData = async (req: Request, res: Response) => {
       .populate({
         path: 'course',
         // Only get the necessary fields from the course document.
-        select: 'title description thumbnail url instructorId lessons'
-      })
-      .populate({
-        path: 'course.instructorId',
-        select: 'name',
+        select: 'title description thumbnail url lessons',
       })
       .populate({
         path: 'lessonProgress.lesson',
         select: 'title',
       });
 
-    // Create a simplified dashboard data structure.
-    const dashboardData = studentProgress.map((progress) => {
-      const course = progress.course as any; // Temporary cast for better intellisense
+    // Create a simplified dashboard data structure and categorize it.
+    const coursesWithProgress = studentProgress.map((progress) => {
+      const course = progress.course as any;
       const totalLessons = course.lessons?.length || 0;
       const completedLessons = progress.lessonProgress.filter((lp) => lp.completed).length;
+      const completionPercentage = totalLessons > 0 ? Math.floor((completedLessons / totalLessons) * 100) : 0;
 
       return {
+        _id: progress._id,
         course,
         totalLessons,
         completedLessons,
-        completionPercentage: totalLessons > 0 ? Math.floor((completedLessons / totalLessons) * 100) : 0,
+        completionPercentage,
       };
     });
 
-    res.status(200).json(dashboardData);
+    // Categorize courses based on their completion percentage.
+    const completedCourses = coursesWithProgress.filter(course => course.completionPercentage === 100);
+    const inProgressCourses = coursesWithProgress.filter(course => course.completionPercentage > 0 && course.completionPercentage < 100);
+    const notStartedCourses = coursesWithProgress.filter(course => course.completionPercentage === 0);
+
+    const dashboardSummary = {
+      completedCourses,
+      inProgressCourses,
+      notStartedCourses,
+      summary: {
+        completed: completedCourses.length,
+        inProgress: inProgressCourses.length,
+        toStart: notStartedCourses.length,
+      },
+    };
+
+    res.status(200).json(dashboardSummary);
 
   } catch (error) {
     console.error('Error fetching dashboard data:', error);
