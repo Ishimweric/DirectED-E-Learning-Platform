@@ -28,6 +28,9 @@ const QuizPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [attempts, setAttempts] = useState<IQuizAttempt[]>([]);
+  // --- NEW: Timer State ---
+  const [timeRemaining, setTimeRemaining] = useState<number>(600); // 10 minutes in seconds
+  const [quizStarted, setQuizStarted] = useState<boolean>(false);
 
   // Function to fetch the quiz and attempts from the API
   const fetchQuiz = async () => {
@@ -42,6 +45,9 @@ const QuizPage: React.FC = () => {
       setUserAnswers({}); // Reset answers on new fetch
       setSubmitted(false);
       setScore(null);
+      // --- NEW: Reset timer on new quiz ---
+      setTimeRemaining(600);
+      setQuizStarted(true);
     } catch (err) {
       console.error("Failed to fetch quiz data:", err);
       setError("Failed to load quiz. Please try again later.");
@@ -55,6 +61,23 @@ const QuizPage: React.FC = () => {
     fetchQuiz();
   }, []);
 
+  // --- NEW: Timer useEffect hook ---
+  useEffect(() => {
+    let timerId: number;
+    if (quizStarted && timeRemaining > 0 && !submitted) {
+      timerId = setTimeout(() => {
+        setTimeRemaining(prevTime => prevTime - 1);
+      }, 1000);
+    } else if (timeRemaining === 0 && !submitted) {
+      // Time is up, automatically submit the quiz
+      handleSubmit();
+    }
+
+    // Cleanup function to clear the timer when the component unmounts
+    // or when dependencies change.
+    return () => clearTimeout(timerId);
+  }, [timeRemaining, quizStarted, submitted]);
+
   // Handler for when a user changes an answer
   const handleAnswerChange = (questionId: string, answer: string | string[]) => {
     setUserAnswers(prevAnswers => ({
@@ -66,6 +89,7 @@ const QuizPage: React.FC = () => {
   // Handler for quiz submission
   const handleSubmit = async () => {
     setLoading(true);
+    setQuizStarted(false); // Stop the timer
     try {
       const submittedAnswers: ISubmittedAnswer[] = Object.entries(userAnswers).map(([questionId, answer]) => ({
         questionId,
@@ -98,6 +122,13 @@ const QuizPage: React.FC = () => {
     return answer !== undefined && answer !== null && (Array.isArray(answer) ? answer.length > 0 : answer !== '');
   });
 
+  // Helper function to format the time
+  const formatTime = (timeInSeconds: number): string => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
   // Render content based on state (loading, error, success)
   if (loading && !quiz) {
     return <div className="flex justify-center items-center h-screen text-2xl font-semibold text-gray-600">Loading quiz...</div>;
@@ -123,6 +154,17 @@ const QuizPage: React.FC = () => {
             Test your knowledge of the solar system with this interactive quiz!
           </p>
         </div>
+
+        {/* --- NEW: Timer Display --- */}
+        {!submitted && (
+          <div className="text-center mb-8">
+            <div className={`inline-block px-6 py-2 rounded-full font-bold text-2xl ${
+              timeRemaining <= 60 ? 'bg-red-500 text-white animate-pulse' : 'bg-green-500 text-white'
+            }`}>
+              Time Left: {formatTime(timeRemaining)}
+            </div>
+          </div>
+        )}
 
         {/* Score and Attempts Display */}
         {submitted && score !== null && (
