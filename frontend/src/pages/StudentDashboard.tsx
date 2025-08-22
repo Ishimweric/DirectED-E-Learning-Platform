@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useDashboard } from '../contexts/DashboardContext';
 import CourseProgressCard from '../components/CourseProgressCard';
 import MyProgressChart from '../components/MyProgressChart';
+import Calendar from '../components/Calendar';
 
 const StudentDashboard: React.FC = () => {
   const { user } = useAuth(); // Assume user object contains a token
@@ -41,8 +42,7 @@ const StudentDashboard: React.FC = () => {
 
           {/* Placeholder for the Calendar */}
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md">
-            <h2 className="text-xl font-bold mb-4">Calendar (Not Implemented)</h2>
-            <p className="text-gray-500 dark:text-gray-400">Placeholder for a calendar component.</p>
+            <Calendar/>
           </div>
         </div>
 
