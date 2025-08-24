@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -8,3 +9,15 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 )
+=======
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+>>>>>>> aca9b5af3ad927085f17054d2f5b975b5d579c17
