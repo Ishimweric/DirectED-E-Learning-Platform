@@ -84,7 +84,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, sidebarOpen }) => {
           <div className="flex items-center space-x-4">
             
             <Link to="/" className="flex items-center space-x-2">
-              <img src={"../../../public/logo.png"} className="h-12"/>
+              <img src={"/logo.png"} className="h-12"/>
             </Link>
             <button
               onClick={onMenuToggle}
