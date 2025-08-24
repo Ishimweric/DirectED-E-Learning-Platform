@@ -1,71 +1,76 @@
-DirectEd - E-Learning Platform
+# DirectEd - E-Learning Platform
 
 A comprehensive, full-stack e-learning platform built with modern web technologies to provide an engaging learning experience for students and powerful course management tools for instructors.
-🚀 Features
-For Students
 
-Interactive Course Catalog: Browse and search courses with advanced filtering
-Progress Tracking: Monitor your learning progress with visual indicators
-Video Lessons: Watch lessons with integrated progress tracking
-Interactive Quizzes: Test your knowledge with multiple question types
-Certificates: Receive certificates upon course completion
-AI Assistant: Get help from an AI-powered learning assistant
+## 🌐 Live Demo
 
-For Instructors
+- **Frontend**: [https://directed-e-learning-platform.vercel.app](https://directed-e-learning-platform.vercel.app)
+- **Backend API**: [https://directed-backend.onrender.com](https://directed-backend.onrender.com)
 
-Course Management: Create and manage courses with rich content
-Student Analytics: Track student progress and engagement metrics
-Quiz Creation: Build interactive quizzes with various question types
-Revenue Tracking: Monitor course earnings and enrollment statistics
-Content Upload: Upload videos, documents, and other course materials
+## 🚀 Features
 
-Platform Features
+### For Students
+- **Interactive Course Catalog**: Browse and search courses with advanced filtering
+- **Progress Tracking**: Monitor your learning progress with visual indicators
+- **Video Lessons**: Watch lessons with integrated progress tracking
+- **Interactive Quizzes**: Test your knowledge with multiple question types
+- **Certificates**: Receive certificates upon course completion
+- **AI Assistant**: Get help from an AI-powered learning assistant
 
-Role-Based Access: Separate experiences for students and instructors
-Responsive Design: Works seamlessly on desktop, tablet, and mobile
-Dark/Light Mode: Choose your preferred theme
-Real-time Notifications: Stay updated with platform activities
-Secure Authentication: JWT-based authentication with role protection
+### For Instructors
+- **Course Management**: Create and manage courses with rich content
+- **Student Analytics**: Track student progress and engagement metrics
+- **Quiz Creation**: Build interactive quizzes with various question types
+- **Revenue Tracking**: Monitor course earnings and enrollment statistics
+- **Content Upload**: Upload videos, documents, and other course materials
 
-🛠 Technology Stack
-Frontend
+### Platform Features
+- **Role-Based Access**: Separate experiences for students and instructors
+- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
+- **Dark/Light Mode**: Choose your preferred theme
+- **Real-time Notifications**: Stay updated with platform activities
+- **Secure Authentication**: JWT-based authentication with role protection
 
-React 18 with TypeScript for type safety
-Tailwind CSS for responsive styling
-React Router for navigation
-React Context for state management
-Axios for API communication
-Heroicons for beautiful icons
+## 🛠 Technology Stack
 
-Backend
+### Frontend
+- React 18 with TypeScript for type safety
+- Tailwind CSS for responsive styling
+- React Router for navigation
+- React Context for state management
+- Axios for API communication
+- Heroicons for beautiful icons
 
-Node.js with Express.js server
-TypeScript for type safety
-MongoDB with Mongoose ODM
-JWT for authentication
-bcryptjs for password hashing
-Cloudinary for file uploads
-OpenAI API for AI assistant integration
+### Backend
+- Node.js with Express.js server
+- TypeScript for type safety
+- MongoDB with Mongoose ODM
+- JWT for authentication
+- bcryptjs for password hashing
+- Cloudinary for file uploads
+- OpenAI API for AI assistant integration
 
-Development Tools
+### Development Tools
+- Vite for fast development builds
+- Nodemon for automatic server restarts
+- Postman for API testing
+- MongoDB Atlas for cloud database
 
-Vite for fast development builds
-Nodemon for automatic server restarts
-Postman for API testing
-MongoDB Atlas for cloud database
+## 📦 Installation & Setup
 
-📦 Installation & Setup
-Prerequisites
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB (local or Atlas cluster)
+- npm or yarn package manager
 
-Node.js (v16 or higher)
-MongoDB (local or Atlas cluster)
-npm or yarn package manager
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Ishimweric/DirectED-E-Learning-Platform.git
+cd DirectED-E-Learning-Platform
+```
 
-1. Clone the Repository
-git clone https://github.com/your-username/directed-platform.git
-cd directed-platform
-
-2. Backend Setup
+### 2. Backend Setup
+```bash
 # Navigate to backend directory
 cd backend
 
@@ -80,8 +85,10 @@ cp .env.example .env
 
 # Start the development server
 npm run dev
+```
 
-3. Frontend Setup
+### 3. Frontend Setup
+```bash
 # Navigate to frontend directory
 cd frontend
 
@@ -96,15 +103,17 @@ VITE_API_BASE_URL=http://localhost:3500
 
 # Start the development server
 npm run dev
+```
 
-4. Database Setup
+### 4. Database Setup
+- Create a MongoDB database (local or using MongoDB Atlas)
+- Update the MONGO_URI in your backend .env file
+- The application will automatically create collections and indexes
 
-Create a MongoDB database (local or using MongoDB Atlas)
-Update the MONGO_URI in your backend .env file
-The application will automatically create collections and indexes
+## ⚙ Environment Variables
 
-⚙ Environment Variables
-Backend (.env)
+### Backend (.env)
+```env
 # Server Configuration
 PORT=3500
 NODE_ENV=development
@@ -132,25 +141,35 @@ EMAIL_PASS=your-app-password
 
 # Frontend URL (for CORS)
 CLIENT_URL=http://localhost:3000
+```
 
-Frontend (.env)
+### Frontend (.env)
+```env
 VITE_API_BASE_URL=http://localhost:3500
+```
 
-🚦 Available Scripts
-Backend Scripts
+## 🚦 Available Scripts
+
+### Backend Scripts
+```bash
 npm run dev      # Start development server with hot reload
 npm run build    # Build for production
 npm start        # Start production server
 npm test         # Run tests
+```
 
-Frontend Scripts
+### Frontend Scripts
+```bash
 npm run dev      # Start development server
 npm run build    # Build for production
 npm run preview  # Preview production build
 npm test         # Run tests
+```
 
-📁 Project Structure
-directed-platform/
+## 📁 Project Structure
+
+```
+DirectED-E-Learning-Platform/
 ├── backend/
 │   ├── src/
 │   │   ├── config/          # Database and third-party configurations
@@ -179,73 +198,66 @@ directed-platform/
     ├── package.json
     ├── tsconfig.json
     └── vite.config.ts
+```
 
-📡 API Documentation
-Authentication Endpoints
+## 📡 API Documentation
 
-POST /api/auth/register - Register a new user
-POST /api/auth/login - Login user
-GET /api/auth/me - Get current user profile
-POST /api/auth/forgotpassword - Request password reset
-PUT /api/auth/resetpassword/:token - Reset password
+### Authentication Endpoints
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user profile
+- `POST /api/auth/forgotpassword` - Request password reset
+- `PUT /api/auth/resetpassword/:token` - Reset password
 
-Course Endpoints
+### Course Endpoints
+- `GET /api/courses` - Get all courses (with filtering)
+- `GET /api/courses/featured` - Get featured courses
+- `GET /api/courses/:id` - Get specific course
+- `POST /api/courses` - Create a course (instructor only)
+- `PUT /api/courses/:id` - Update a course (instructor only)
+- `DELETE /api/courses/:id` - Delete a course (instructor only)
+- `POST /api/courses/:id/enroll` - Enroll in a course (student only)
 
-GET /api/courses - Get all courses (with filtering)
-GET /api/courses/featured - Get featured courses
-GET /api/courses/:id - Get specific course
-POST /api/courses - Create a course (instructor only)
-PUT /api/courses/:id - Update a course (instructor only)
-DELETE /api/courses/:id - Delete a course (instructor only)
-POST /api/courses/:id/enroll - Enroll in a course (student only)
+### Lesson Endpoints
+- `GET /api/lessons/:id` - Get specific lesson
+- `POST /api/lessons` - Create a lesson (instructor only)
+- `PUT /api/lessons/:id/progress` - Update lesson progress (student only)
 
-Lesson Endpoints
+### Quiz Endpoints
+- `GET /api/quizzes/:id` - Get specific quiz
+- `POST /api/quizzes/:id/submit` - Submit quiz answers (student only)
+- `POST /api/quizzes` - Create a quiz (instructor only)
 
-GET /api/lessons/:id - Get specific lesson
-POST /api/lessons - Create a lesson (instructor only)
-PUT /api/lessons/:id/progress - Update lesson progress (student only)
+### User Endpoints
+- `GET /api/student/dashboard` - Get student dashboard data
+- `GET /api/instructor/dashboard` - Get instructor dashboard data
+- `GET /api/notifications` - Get user notifications
+- `POST /api/notifications/mark-read` - Mark notifications as read
 
-Quiz Endpoints
+## 🚀 Deployment
 
-GET /api/quizzes/:id - Get specific quiz
-POST /api/quizzes/:id/submit - Submit quiz answers (student only)
-POST /api/quizzes - Create a quiz (instructor only)
+### Backend Deployment (Render/Railway)
+1. Connect your repository to Render/Railway
+2. Set up environment variables in the dashboard
+3. Deploy from main branch
 
-User Endpoints
+### Frontend Deployment (Vercel/Netlify)
+1. Connect your repository to Vercel/Netlify
+2. Set build command: `npm run build`
+3. Set output directory: `dist`
+4. Add environment variable: `VITE_API_BASE_URL=your-backend-url`
 
-GET /api/student/dashboard - Get student dashboard data
-GET /api/instructor/dashboard - Get instructor dashboard data
-GET /api/notifications - Get user notifications
-POST /api/notifications/mark-read - Mark notifications as read
+### Database Deployment (MongoDB Atlas)
+1. Create a MongoDB Atlas account
+2. Create a new cluster
+3. Get connection string and update MONGO_URI
 
-For detailed API documentation with request/response examples, see API.md.
-🚀 Deployment
-Backend Deployment (Render/Railway)
+## 🤝 Contributing
 
-Connect your repository to Render/Railway
-Set up environment variables in the dashboard
-Deploy from main branch
-
-Frontend Deployment (Vercel/Netlify)
-
-Connect your repository to Vercel/Netlify
-Set build command: npm run build
-Set output directory: dist
-Add environment variable: VITE_API_BASE_URL=your-backend-url
-
-Database Deployment (MongoDB Atlas)
-
-Create a MongoDB Atlas account
-Create a new cluster
-Get connection string and update MONGO_URI
-
-🤝 Contributing
 We welcome contributions to DirectEd! Please follow these steps:
 
-Fork the repository
-Create a feature branch (git checkout -b feature/amazing-feature)
-Commit your changes (git commit -m 'Add some amazing feature')
-Push to the branch (git push origin feature/amazing-feature)
-Open a Pull Request
-
-Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
