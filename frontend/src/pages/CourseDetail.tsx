@@ -80,6 +80,7 @@ const CourseDetail: React.FC = () => {
       setEnrolled(true);
       // Navigate to the first lesson of the course
       if (currentCourse && currentCourse.lessons && currentCourse.lessons.length > 0) {
+        console.log("reached in lesson", currentCourse.lessons.length);
         const firstLessonId = currentCourse.lessons[0];
         navigate(`/learn/${id}/${firstLessonId}`);
       } else {
