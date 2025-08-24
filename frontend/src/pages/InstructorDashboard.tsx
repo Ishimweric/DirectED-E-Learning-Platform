@@ -100,7 +100,7 @@ const InstructorDashboard: React.FC = () => {
                 <CurrencyDollarIcon className="h-6 w-6 text-yellow-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold dark:bg-gray-100">${stats.totalRevenue}</p>
+                <p className="text-2xl font-bold dark:text-gray-100">${stats.totalRevenue}</p>
                 <p className="text-gray-600 dark:text-slate-200">Total Revenue</p>
               </div>
             </div>
