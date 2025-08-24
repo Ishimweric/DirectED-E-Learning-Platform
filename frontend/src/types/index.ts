@@ -86,6 +86,7 @@ export interface AuthContextType {
   register: (userData: RegisterData) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
+  updateUser?: (updatedData: any) => Promise<void>;
 }
 
 export interface RegisterData {

@@ -22,7 +22,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onMenuToggle, sidebarOpen }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [notifications, setNotifications] = useState<any[]>([]);
+  // const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -61,10 +61,10 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, sidebarOpen }) => {
         // setUnreadCount(response.data.filter((n: any) => !n.isRead).length);
         
         // Mock data for now
-        setNotifications([
-          { id: 1, title: 'New course available', message: 'UX Design Fundamentals is now available', isRead: false },
-          { id: 2, title: 'Assignment graded', message: 'Your assignment has been graded', isRead: true },
-        ]);
+        // setNotifications([
+        //   { id: 1, title: 'New course available', message: 'UX Design Fundamentals is now available', isRead: false },
+        //   { id: 2, title: 'Assignment graded', message: 'Your assignment has been graded', isRead: true },
+        // ]);
         setUnreadCount(1);
       } catch (error) {
         console.error('Failed to fetch notifications:', error);

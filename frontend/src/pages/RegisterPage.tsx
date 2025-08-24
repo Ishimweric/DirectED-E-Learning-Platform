@@ -11,6 +11,7 @@ interface RegisterForm {
   password: string;
   confirmPassword: string;
   role: 'student' | 'instructor';
+  terms: boolean
 }
 
 const RegisterPage: React.FC = () => {

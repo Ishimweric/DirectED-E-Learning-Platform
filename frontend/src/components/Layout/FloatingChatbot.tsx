@@ -7,7 +7,6 @@ import {
   LightBulbIcon
 } from '@heroicons/react/24/outline';
 import { sendMessage, getChatHistory } from '../../services/api';
-import { useAuth } from '../../contexts/AuthContext';
 
 interface Message {
   _id: string;
@@ -17,7 +16,6 @@ interface Message {
 }
 
 const FloatingChatbot: React.FC = () => {
-  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
