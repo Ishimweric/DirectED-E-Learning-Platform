@@ -138,7 +138,7 @@ const CourseDetail: React.FC = () => {
 
               {/* Instructor */}
               <div className="mb-6">
-                <h3 className="text-xl font-bold mb-2 dark:text-gray-900">Instructor</h3>
+                <h3 className="text-xl font-bold mb-2 dark:text-gray-200">Instructor</h3>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
                   <div>
