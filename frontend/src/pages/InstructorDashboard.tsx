@@ -55,7 +55,7 @@ const InstructorDashboard: React.FC = () => {
     fetchDashboardData();
   }, []);
 
-  if (loading) return <div className="flex justify-center py-12">Loading dashboard...</div>;
+  if (loading) return <div className="flex justify-center py-12 dark:text-white animate-pulse text-xl min-h-screen">Loading dashboard...</div>;
   if (error) return <div className="text-red-500 text-center py-12">Error: {error}</div>;
 
   return (
@@ -156,7 +156,7 @@ const InstructorDashboard: React.FC = () => {
                   {courses.map(course => (
                     <tr key={course._id}>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-medium text-gray-900 dark:text-gray-100">{course.title}</div>
+                        <Link to={`/create-lesson/${course._id}`} className="font-medium hover:opacity-85 text-gray-900 dark:text-gray-100">{course.title}</Link>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-gray-900 dark:text-gray-100">{course.totalStudents}</div>
