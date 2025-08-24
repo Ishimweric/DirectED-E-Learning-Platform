@@ -80,7 +80,7 @@ const CourseDetail: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-12">Loading course...</div>;
+  if (loading) return <div className="flex justify-center py-12 dark:text-white animate-pulse text-xl font-bold">Loading course...</div>;
   if (error) return <div className="text-red-500 text-center py-12">Error: {error}</div>;
   if (!course) return <div className="text-center py-12">Course not found</div>;
 
@@ -92,18 +92,18 @@ const CourseDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-              <p className="text-gray-600 mb-4">{course.description}</p>
+              <h1 className="text-3xl font-bold mb-4 dark:text-white">{course.title}</h1>
+              <p className="text-gray-600 mb-4 dark:text-white">{course.description}</p>
               
               <div className="flex items-center space-x-4 mb-6">
-                <div className="flex items-center">
+                <div className="flex items-center dark:text-white">
                   <ClockIcon className="h-5 w-5 text-gray-500 mr-1" />
                   <span>{generateRandomNum()} weeks</span>
                 </div>
