@@ -77,7 +77,7 @@ const InstructorDashboard: React.FC = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold dark:text-gray-100">{stats.totalCourses}</p>
-                <p className="text-gray-600 dark:bg-slate-200">Published Courses</p>
+                <p className="text-gray-600 dark:text-slate-200">Published Courses</p>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@ const InstructorDashboard: React.FC = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold dark:text-gray-100">{stats.totalStudents}</p>
-                <p className="text-gray-600 dark:bg-slate-200">Total Students</p>
+                <p className="text-gray-600 dark:text-slate-200">Total Students</p>
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ const InstructorDashboard: React.FC = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold dark:bg-gray-100">${stats.totalRevenue}</p>
-                <p className="text-gray-600 dark:bg-slate-200">Total Revenue</p>
+                <p className="text-gray-600 dark:text-slate-200">Total Revenue</p>
               </div>
             </div>
           </div>
@@ -169,7 +169,7 @@ const InstructorDashboard: React.FC = () => {
                               style={{ width: `${course.avgProgress}%` }}
                             ></div>
                           </div>
-                          <span>{course.avgProgress}%</span>
+                          <span className='dark:text-white'>{course.avgProgress}%</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
