@@ -1,7 +1,6 @@
-// src/components/FloatingChatbot.tsx
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  PaperAirplaneIcon, 
+import {
+  PaperAirplaneIcon,
   XMarkIcon,
   ChatBubbleLeftRightIcon,
   LightBulbIcon
@@ -21,7 +20,11 @@ const FloatingChatbot: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [currentRequestType, setCurrentRequestType] = useState<string>('general inquiry');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Configuration for the custom endpoint
+  const CUSTOM_ENDPOINT = 'https://your-api-endpoint.com/api/chat'; // Replace with your actual endpoint
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -60,34 +63,66 @@ const FloatingChatbot: React.FC = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input;
+    const requestType = currentRequestType;
     setInput('');
+    // Don't reset currentRequestType here so the button stays selected
     setIsLoading(true);
     setError('');
 
     try {
-      const response = await sendMessage({
-        message: input
+      // Custom POST request with your specified format
+      const customPayload = {
+        input: {
+          user_id: "12345",
+          user_type: "student",
+          request_type: requestType,
+          subject: "",
+          query: currentInput,
+          auto_detect_topic: true,
+          difficulty_level: "intermediate"
+        }
+      };
+
+      const response = await fetch(CUSTOM_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any authorization headers if needed
+          // 'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(customPayload)
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      // Extract the conversation_response from the output object
+      const aiResponseContent = responseData.output?.conversation_response || 'No response received';
+
       const aiMessage: Message = {
-        _id: response.data.data.sessionId + Date.now(),
-        content: response.data.data.response,
+        _id: 'ai-' + Date.now(),
+        content: aiResponseContent,
         role: 'assistant',
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, aiMessage]);
+
     } catch (err: any) {
       console.error('Failed to send message:', err);
-      setError(err.response?.data?.message || 'Failed to send message');
-      
+      setError(err.message || 'Failed to send message');
+
       const errorMessage: Message = {
         _id: 'error-' + Date.now(),
         content: 'Sorry, I encountered an error. Please try again.',
         role: 'assistant',
         timestamp: new Date()
       };
-      
+
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
@@ -95,14 +130,15 @@ const FloatingChatbot: React.FC = () => {
   };
 
   const suggestedQuestions = [
-    "How can I improve my design skills?",
-    "What are the best UI design practices?",
-    "Explain the difference between UI and UX",
-    "How do I create responsive layouts?",
+    { question: "Please tutor me on this subject", requestType: "conversations" },
+    { question: "Generate a quiz based on this topic", requestType: "quiz generation" },
+    { question: "Analyse this content for me", requestType: "content analysis" },
+    { question: "Make flashcards for me on this topic", requestType: "flashcard creation" },
   ];
 
-  const handleSuggestionClick = (question: string) => {
-    setInput(question);
+  const handleSuggestionClick = (requestType: string) => {
+    // Don't change input, just set the request type and mark as selected
+    setCurrentRequestType(requestType);
   };
 
   const toggleChat = () => {
@@ -157,13 +193,16 @@ const FloatingChatbot: React.FC = () => {
                   Ask questions about your courses or get learning resources.
                 </p>
                 <div className="grid grid-cols-2 gap-2 w-full">
-                  {suggestedQuestions.map((question, index) => (
+                  {suggestedQuestions.map((item, index) => (
                     <button
                       key={index}
-                      onClick={() => handleSuggestionClick(question)}
-                      className="bg-white border border-gray-200 hover:border-blue-200 hover:bg-blue-50 p-2 rounded text-xs text-left"
+                      onClick={() => handleSuggestionClick(item.requestType)}
+                      className={`border p-2 rounded text-xs text-left transition-colors ${currentRequestType === item.requestType
+                          ? 'bg-blue-100 border-blue-300 text-blue-800'
+                          : 'bg-white border-gray-200 hover:border-blue-200 hover:bg-blue-50'
+                        }`}
                     >
-                      {question}
+                      {item.question}
                     </button>
                   ))}
                 </div>
@@ -176,11 +215,10 @@ const FloatingChatbot: React.FC = () => {
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-lg p-2 text-sm ${
-                        message.role === 'user'
+                      className={`max-w-[80%] rounded-lg p-2 text-sm ${message.role === 'user'
                           ? 'bg-blue-600 text-white'
                           : 'bg-white text-gray-800 border border-gray-200'
-                      }`}
+                        }`}
                     >
                       <p className="whitespace-pre-wrap">{message.content}</p>
                     </div>
