@@ -1,0 +1,10 @@
+[
+  {
+    "human": "Create an array of length 5 which contains all even numbers between 1 and 10.",
+    "assistant": "arr = [2, 4, 6, 8, 10]"
+  },
+  {
+    "human": "Formulate an equation to calculate the height of a triangle given the angle, side lengths and opposite side length.",
+    "assistant": "Height of triangle = opposite side length * sin (angle) / side length"
+  }
+]
