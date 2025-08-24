@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Floating Chatbot UI Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .animate-bounce {
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      53%,
+      80%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      40%,
+      43% {
+        transform: translateY(-30px);
+      }
+
+      70% {
+        transform: translateY(-15px);
+      }
+
+      90% {
+        transform: translateY(-4px);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <!-- Floating Chat Button (closed state) -->
+  <div id="chatButton"
+    class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center z-50 transition-all duration-300 hover:scale-110 cursor-pointer">
+    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.733 1.395 3.132 3.132 3.132h.77c.66 0 1.303.258 1.776.732a2.25 2.25 0 002.124 1.536c.65 0 1.283-.231 1.776-.732.463-.474 1.077-.732 1.77-.732.66 0 1.303.258 1.776.732a2.25 2.25 0 002.124 1.536c.65 0 1.283-.231 1.776-.732.463-.474 1.077-.732 1.77-.732.66 0 1.303.258 1.776.732a2.25 2.25 0 002.124 1.536c.65 0 1.283-.231 1.776-.732.463-.474 1.077-.732 1.77-.732h.77c1.737 0 3.132-1.399 3.132-3.132V9.25c0-1.736-1.395-3.132-3.132-3.132H4.73c-1.737 0-3.132 1.396-3.132 3.132v7.5z" />
+    </svg>
+  </div>
+
+  <!-- Chat Container (open state) - Initially hidden -->
+  <div id="chatContainer"
+    class="fixed bottom-6 right-6 w-80 md:w-96 h-[calc(100vh-105px)] bg-white rounded-lg shadow-xl z-50 flex-col border border-gray-200 hidden">
+
+    <!-- Header -->
+    <div class="bg-blue-600 text-white p-3 rounded-t-lg flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-2">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189c.422-.086.822-.218 1.184-.395a4.5 4.5 0 002.25-3.906V7.5a4.5 4.5 0 00-9 0v1.171c0 1.658.83 3.202 2.25 3.906.362.177.762.309 1.184.395A6.01 6.01 0 0012 12.75zM12 18c0 1.243-1.007 2.25-2.25 2.25s-2.25-1.007-2.25-2.25" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold">Learning Assistant</h3>
+          <p class="text-xs text-blue-100">Online • Ready to help</p>
+        </div>
+      </div>
+      <button id="closeChat" class="text-white hover:text-blue-200 cursor-pointer">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Messages Area -->
+    <div id="messagesArea" class="flex-1 overflow-y-auto p-3 bg-gray-50">
+
+      <!-- Welcome State -->
+      <div id="welcomeState" class="h-full flex flex-col items-center justify-center text-center p-4">
+        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+          <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189c.422-.086.822-.218 1.184-.395a4.5 4.5 0 002.25-3.906V7.5a4.5 4.5 0 00-9 0v1.171c0 1.658.83 3.202 2.25 3.906.362.177.762.309 1.184.395A6.01 6.01 0 0012 12.75zM12 18c0 1.243-1.007 2.25-2.25 2.25s-2.25-1.007-2.25-2.25" />
+          </svg>
+        </div>
+        <h4 class="font-semibold text-gray-700 mb-1">How can I help you?</h4>
+        <p class="text-sm text-gray-500 mb-4">
+          Ask questions about your courses or get learning resources.
+        </p>
+        <div class="grid grid-cols-2 gap-2 w-full">
+          <button
+            class="bg-white border border-gray-200 hover:border-blue-200 hover:bg-blue-50 p-2 rounded text-xs text-left suggestion-btn"
+            data-question="How can I improve my design skills?">
+            How can I improve my design skills?
+          </button>
+          <button
+            class="bg-white border border-gray-200 hover:border-blue-200 hover:bg-blue-50 p-2 rounded text-xs text-left suggestion-btn"
+            data-question="What are the best UI design practices?">
+            What are the best UI design practices?
+          </button>
+          <button
+            class="bg-white border border-gray-200 hover:border-blue-200 hover:bg-blue-50 p-2 rounded text-xs text-left suggestion-btn"
+            data-question="Explain the difference between UI and UX">
+            Explain the difference between UI and UX
+          </button>
+          <button
+            class="bg-white border border-gray-200 hover:border-blue-200 hover:bg-blue-50 p-2 rounded text-xs text-left suggestion-btn"
+            data-question="How do I create responsive layouts?">
+            How do I create responsive layouts?
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat Messages (hidden initially) -->
+      <div id="chatMessages" class="space-y-2 hidden">
+        <!-- User Message Example -->
+        <div class="flex justify-end">
+          <div class="max-w-[80%] rounded-lg p-2 text-sm bg-blue-600 text-white">
+            <p>Generate 5 questions with answers on python datatypes?</p>
+          </div>
+        </div>
+
+        <!-- AI Response Example -->
+        <div class="flex justify-start">
+          <div class="max-w-[80%] rounded-lg p-2 text-sm bg-white text-gray-800 border border-gray-200">
+            <p>Here are 5 questions with answers on Python datatypes:
+
+              1. **What are the main primitive data types in Python?**
+              Answer: The main primitive data types are int (integers), float (floating-point numbers), str (strings),
+              and bool (boolean values).
+
+              2. **How do you check the data type of a variable in Python?**
+              Answer: You can use the type() function or isinstance() function. Example: type(variable) or
+              isinstance(variable, int).
+
+              3. **What's the difference between a list and a tuple?**
+              Answer: Lists are mutable (can be changed after creation) and use square brackets [], while tuples are
+              immutable and use parentheses ().
+
+              4. **How do you create an empty dictionary in Python?**
+              Answer: You can create an empty dictionary using {} or dict(). Example: my_dict = {} or my_dict = dict().
+
+              5. **What happens when you try to access a key that doesn't exist in a dictionary?**
+              Answer: Python raises a KeyError. You can avoid this by using the get() method or checking if the key
+              exists with 'in' keyword.</p>
+          </div>
+        </div>
+
+        <!-- Loading State Example -->
+        <div id="loadingMessage" class="flex justify-start hidden">
+          <div class="bg-white text-gray-800 rounded-lg p-2 border border-gray-200">
+            <div class="flex space-x-1">
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="p-3 border-t border-gray-200 bg-white">
+      <!-- Error Message (hidden by default) -->
+      <div id="errorMessage" class="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-xs mb-2 hidden">
+        Error: Failed to send message. Please try again.
+      </div>
+
+      <!-- Input Form -->
+      <form id="messageForm" class="flex">
+        <input type="text" id="messageInput" placeholder="Type your question..."
+          class="flex-1 border border-gray-300 rounded-l-md py-2 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" />
+        <button type="submit" id="sendButton"
+          class="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-2 px-3 rounded-r-md">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Demo Controls -->
+  <div class="fixed top-4 left-4 bg-white p-4 rounded-lg shadow-lg border">
+    <h3 class="font-semibold mb-2">UI Demo Controls</h3>
+    <div class="space-y-2">
+      <button id="toggleChat" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+        Toggle Chat
+      </button>
+      <button id="showWelcome" class="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700">
+        Show Welcome
+      </button>
+      <button id="showMessages" class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">
+        Show Chat
+      </button>
+      <button id="showLoading" class="bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700">
+        Show Loading
+      </button>
+      <button id="showError" class="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700">
+        Show Error
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Demo functionality
+    const chatButton = document.getElementById('chatButton');
+    const chatContainer = document.getElementById('chatContainer');
+    const closeChat = document.getElementById('closeChat');
+    const welcomeState = document.getElementById('welcomeState');
+    const chatMessages = document.getElementById('chatMessages');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const messageInput = document.getElementById('messageInput');
+
+    // Toggle chat visibility
+    function toggleChatVisibility() {
+      if (chatContainer.classList.contains('hidden')) {
+        chatContainer.classList.remove('hidden');
+        chatContainer.classList.add('flex');
+        chatButton.style.display = 'none';
+      } else {
+        chatContainer.classList.add('hidden');
+        chatContainer.classList.remove('flex');
+        chatButton.style.display = 'flex';
+      }
+    }
+
+    // Event listeners for demo
+    chatButton.addEventListener('click', toggleChatVisibility);
+    closeChat.addEventListener('click', toggleChatVisibility);
+    document.getElementById('toggleChat').addEventListener('click', toggleChatVisibility);
+
+    document.getElementById('showWelcome').addEventListener('click', () => {
+      welcomeState.classList.remove('hidden');
+      chatMessages.classList.add('hidden');
+      loadingMessage.classList.add('hidden');
+    });
+
+    document.getElementById('showMessages').addEventListener('click', () => {
+      welcomeState.classList.add('hidden');
+      chatMessages.classList.remove('hidden');
+      loadingMessage.classList.add('hidden');
+    });
+
+    document.getElementById('showLoading').addEventListener('click', () => {
+      welcomeState.classList.add('hidden');
+      chatMessages.classList.remove('hidden');
+      loadingMessage.classList.remove('hidden');
+    });
+
+    document.getElementById('showError').addEventListener('click', () => {
+      errorMessage.classList.remove('hidden');
+      setTimeout(() => errorMessage.classList.add('hidden'), 3000);
+    });
+
+    // Suggestion buttons
+    document.querySelectorAll('.suggestion-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        messageInput.value = e.target.dataset.question;
+      });
+    });
+
+    // Auto-open chat for demo
+    setTimeout(() => {
+      toggleChatVisibility();
+    }, 1000);
+  </script>
+
+</body>
+
+</html>

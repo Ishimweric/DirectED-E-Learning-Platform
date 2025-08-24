@@ -1,7 +1,7 @@
 // src/components/FloatingChatbot.tsx
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  PaperAirplaneIcon, 
+import {
+  PaperAirplaneIcon,
   XMarkIcon,
   ChatBubbleLeftRightIcon,
   LightBulbIcon
@@ -24,6 +24,9 @@ const FloatingChatbot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Configuration for the custom endpoint
+  const CUSTOM_ENDPOINT = 'https://your-api-endpoint.com/api/chat';
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -62,34 +65,62 @@ const FloatingChatbot: React.FC = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
     setIsLoading(true);
     setError('');
 
     try {
-      const response = await sendMessage({
-        message: input
+      // Custom POST request with your specified format
+      const customPayload = {
+        input: {
+          user_id: user?.id || "12345",
+          user_type: "student",
+          request_type: "quiz generation",
+          subject: "python",
+          query: currentInput,
+          auto_detect_topic: true,
+          difficulty_level: "beginner"
+        }
+      };
+
+      const response = await fetch(CUSTOM_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(customPayload)
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      // Extract the conversation_response from the output object
+      const aiResponseContent = responseData.output?.conversation_response || 'No response received';
+
       const aiMessage: Message = {
-        _id: response.data.data.sessionId + Date.now(),
-        content: response.data.data.response,
+        _id: 'ai-' + Date.now(),
+        content: aiResponseContent,
         role: 'assistant',
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, aiMessage]);
+
     } catch (err: any) {
       console.error('Failed to send message:', err);
-      setError(err.response?.data?.message || 'Failed to send message');
-      
+      setError(err.message || 'Failed to send message');
+
       const errorMessage: Message = {
         _id: 'error-' + Date.now(),
         content: 'Sorry, I encountered an error. Please try again.',
         role: 'assistant',
         timestamp: new Date()
       };
-      
+
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
@@ -178,11 +209,10 @@ const FloatingChatbot: React.FC = () => {
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-lg p-2 text-sm ${
-                        message.role === 'user'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white text-gray-800 border border-gray-200'
-                      }`}
+                      className={`max-w-[80%] rounded-lg p-2 text-sm ${message.role === 'user'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-white text-gray-800 border border-gray-200'
+                        }`}
                     >
                       <p className="whitespace-pre-wrap">{message.content}</p>
                     </div>
