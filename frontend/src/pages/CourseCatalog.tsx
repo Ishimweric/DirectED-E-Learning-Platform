@@ -50,7 +50,7 @@ const CourseCatalog: React.FC = () => {
     setFilteredCourses(filtered);
   }, [searchTerm, courses]);
 
-  if (loading) return <div className="flex justify-center py-12">Loading courses...</div>;
+  if (loading) return <div className="flex justify-center py-12 min-h-screen dark:text-white font-bold animate-pulse">Loading courses...</div>;
   if (error) return <div className="text-red-500 text-center py-12">Error: {error}</div>;
 
   return (
