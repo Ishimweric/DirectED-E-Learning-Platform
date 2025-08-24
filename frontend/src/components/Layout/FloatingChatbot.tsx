@@ -14,6 +14,8 @@ interface Message {
   timestamp: Date;
 }
 
+console.log(sendMessage)
+
 const FloatingChatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
