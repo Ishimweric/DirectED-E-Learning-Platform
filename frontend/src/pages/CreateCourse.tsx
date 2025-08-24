@@ -28,6 +28,7 @@ const CreateCourse: React.FC = () => {
       const url = response.data.data.url;
       if (type === 'video') {
         setVideoUrl(url);
+        console.log(documentUrl,courseId);
       } else {
         setDocumentUrl(url);
       }

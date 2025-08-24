@@ -38,8 +38,14 @@ app.use(limiter);
 
 // CORS
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: [
+  process.env.CLIENT_URL || "http://localhost:3000",
+  "http://localhost:5173",
+  "https://directed.netlify.app",
+  "https://directed.netlify.app/"
+  ],
   credentials: true,
+
 }));
 
 // Body parser middleware

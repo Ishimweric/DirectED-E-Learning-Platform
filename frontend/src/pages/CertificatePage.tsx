@@ -1,11 +1,11 @@
 // src/pages/CertificatePage.tsx
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import html2canvas from 'html2canvas';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+// import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { FiDownload } from 'react-icons/fi';
 import { getCertificate } from '../services/api';
-import { useAuth } from '../contexts/AuthContext';
+// import { useAuth } from '../contexts/AuthContext';
 
 interface CertificateData {
   _id: string;
@@ -22,7 +22,7 @@ interface CertificateData {
 
 const CertificatePage: React.FC = () => {
   const { verificationCode } = useParams<{ verificationCode: string }>();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const [certificate, setCertificate] = useState<CertificateData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

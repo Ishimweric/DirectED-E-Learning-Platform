@@ -71,7 +71,9 @@ const InstructorProfile: React.FC = () => {
       };
 
       const response = await updateProfile(updateData);
-      updateUser(response.data.data);
+      if (updateUser){
+        updateUser(response.data.data);
+      }
       setSuccess('Profile updated successfully');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to update profile');

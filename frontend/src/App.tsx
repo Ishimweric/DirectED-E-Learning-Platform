@@ -1,12 +1,7 @@
-// 
-
-// src/App.tsx
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/Layout';
-import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
@@ -52,6 +47,7 @@ function App() {
                 <Route path="/certificate/:verificationCode" element={<CertificatePage/>} />
                 <Route path="/certificate" element={<CertificatePage/>} />
             </Routes>
+            <FloatingChatbot/>
             <Footer/>
           </Layout>
         </Router>

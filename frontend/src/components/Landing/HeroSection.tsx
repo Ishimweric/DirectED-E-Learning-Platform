@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="gradient-bg text-white py-20 h-[calc(100vh-75px)] flex w-full">
+    <section className="gradient-bg text-white py-20 min-h-[calc(100vh-75px)] flex flex-col md:flex-row w-full">
       <div className="container mx-auto px-4 w-2/3">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
@@ -28,7 +28,7 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className='w-1/3 p-5'>
+      <div className='w-1/3 p-5 hidden md:flex'>
         <img src={"../../../public/image.png"}/>
       </div>
     </section>
