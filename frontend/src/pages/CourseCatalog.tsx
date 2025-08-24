@@ -54,7 +54,7 @@ const CourseCatalog: React.FC = () => {
   if (error) return <div className="text-red-500 text-center py-12">Error: {error}</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-200">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
 
       {/* Hero Section */}
       <div className="bg-blue-600 dark:bg-cyan-800 text-white py-12">
@@ -85,7 +85,7 @@ const CourseCatalog: React.FC = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCourses.map(course => (
-            <div key={course._id} className="bg-white dark:bg-dark-300 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div key={course._id} className="bg-white dark:bg-gray-950 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <video src={course.thumbnail} controls className="w-full h-48 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2 dark:text-white">{course.title}</h3>
