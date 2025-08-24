@@ -54,10 +54,10 @@ const CourseCatalog: React.FC = () => {
   if (error) return <div className="text-red-500 text-center py-12">Error: {error}</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-100">
 
       {/* Hero Section */}
-      <div className="bg-blue-600 text-white py-12">
+      <div className="bg-blue-600 dark:bg-cyan-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-4">Find Your Perfect Course</h1>
           <p className="text-xl mb-8">Discover a wide range of courses taught by industry experts</p>
@@ -85,14 +85,14 @@ const CourseCatalog: React.FC = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCourses.map(course => (
-            <div key={course._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div key={course._id} className="bg-white dark:bg-dark-300 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <video src={course.thumbnail} controls className="w-full h-48 object-cover" />
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{course.title}</h3>
-                <p className="text-gray-600 mb-4">{course.description.substring(0, 100)}...</p>
+                <h3 className="text-xl font-bold mb-2 dark:text-white">{course.title}</h3>
+                <p className="text-gray-600 mb-4 dark:text-gray-100">{course.description.substring(0, 100)}...</p>
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-blue-600 font-bold">${course.price}</span>
-                  <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded text-sm">{course.level}</span>
+                  <span className="bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-gray-100  px-2 py-1 rounded text-sm">{course.level}</span>
                 </div>
                 <Link 
                   to={`/courses/${course._id}`}
