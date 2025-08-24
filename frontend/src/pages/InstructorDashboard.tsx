@@ -187,7 +187,7 @@ const InstructorDashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link 
             to="/create-course"
-            className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+            className="bg-white dark:bg-gray-950 hover:scale-105 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
           >
             <div className="text-center">
               <div className="bg-blue-100 p-3 rounded-full inline-flex mb-4">
@@ -200,7 +200,7 @@ const InstructorDashboard: React.FC = () => {
           
           <Link 
             to="/instructor-profile"
-            className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+            className="bg-white hover:scale-105 dark:bg-gray-950 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
           >
             <div className="text-center">
               <div className="bg-green-100 p-3 rounded-full inline-flex mb-4">
@@ -213,7 +213,7 @@ const InstructorDashboard: React.FC = () => {
           
           <Link 
             to="/create-quiz"
-            className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+            className="bg-white hover:scale-105 dark:bg-gray-950 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
           >
             <div className="text-center">
               <div className="bg-purple-100 p-3 rounded-full inline-flex mb-4">
