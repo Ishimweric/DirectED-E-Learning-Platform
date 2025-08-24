@@ -1,9 +1,10 @@
 // src/pages/CourseDetail.tsx
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ClockIcon, UserIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 import { getCourse, enrollInCourse } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
+import { useCourse } from '../contexts/CourseContext';
 
 interface Course {
   _id: string;
@@ -43,6 +44,8 @@ const CourseDetail: React.FC = () => {
   const [error, setError] = useState('');
   const [enrolling, setEnrolling] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
+  const { loadCourse, currentCourse } = useCourse();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -51,6 +54,7 @@ const CourseDetail: React.FC = () => {
       try {
         const response = await getCourse(id);
         setCourse(response.data.data);
+        await loadCourse(id);
         
         // Check if user is enrolled
         if (user && response.data.data.enrolled) {
@@ -64,7 +68,7 @@ const CourseDetail: React.FC = () => {
     };
 
     fetchCourse();
-  }, [id, user]);
+  }, [id, user, loadCourse, currentCourse]);
 
   const handleEnroll = async () => {
     if (!id || !user) return;
@@ -72,7 +76,16 @@ const CourseDetail: React.FC = () => {
     setEnrolling(true);
     try {
       await enrollInCourse(id);
+      await loadCourse(id);
       setEnrolled(true);
+      // Navigate to the first lesson of the course
+      if (currentCourse && currentCourse.lessons && currentCourse.lessons.length > 0) {
+        const firstLessonId = currentCourse.lessons[0];
+        navigate(`/learn/${id}/${firstLessonId}`);
+      } else {
+        // If no lessons, navigate to the course overview
+        navigate(`/learn/${id}`);
+      }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to enroll in course');
     } finally {
