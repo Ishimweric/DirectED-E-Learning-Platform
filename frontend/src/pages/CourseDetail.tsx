@@ -47,6 +47,10 @@ const CourseDetail: React.FC = () => {
   const { loadCourse, currentCourse } = useCourse();
   const navigate = useNavigate();
   let firstLessonId;
+  const [courseDuration, setCourseDuration] = useState(generateRandomNum())
+
+  //setCourseDuration
+  console.log(typeof(setCourseDuration));
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -120,7 +124,7 @@ const CourseDetail: React.FC = () => {
               <div className="flex items-center space-x-4 mb-6">
                 <div className="flex items-center dark:text-white">
                   <ClockIcon className="h-5 w-5 text-gray-500 mr-1" />
-                  <span>{generateRandomNum()} weeks</span>
+                  <span>{courseDuration} weeks</span>
                 </div>
                 <div className="flex items-center">
                   <UserIcon className="h-5 w-5 text-gray-500 mr-1 dark:text-gray-50" />
@@ -216,7 +220,7 @@ const CourseDetail: React.FC = () => {
                 <ul className="space-y-2">
                   <li className="flex items-center dark:text-gray-100">
                     <ClockIcon className="h-5 w-5 text-gray-500 mr-2" />
-                    <span>{course.duration || generateRandomNum()} hours on-demand video</span>
+                    <span>{course.duration || courseDuration} hours on-demand video</span>
                   </li>
                   <li className="flex items-center dark:text-gray-100">
                     <UserIcon className="h-5 w-5 text-gray-500 mr-2" />

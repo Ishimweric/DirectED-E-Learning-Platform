@@ -41,7 +41,6 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     try {
       const response = await getCourse(courseId);
       setCurrentCourse(response.data.data);
-      console.log("course fetched", response.data.data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to load course');
       console.error('Error loading course:', err);
@@ -62,7 +61,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     try {
       const response = await getLesson(lessonId);
       setCurrentLesson(response.data.data.lesson);
-      console.log("lesson fetched", response.data.data.lesson, response.data.data.lessonId)
+      
       // If the lesson belongs to a different course than the current one, load that course too
       if (response.data.data.lesson.course && 
           (!currentCourse || currentCourse._id !== response.data.data.lesson.course.toString())) {
