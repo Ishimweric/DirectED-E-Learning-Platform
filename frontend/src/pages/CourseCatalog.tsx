@@ -54,7 +54,7 @@ const CourseCatalog: React.FC = () => {
   if (error) return <div className="text-red-500 text-center py-12">Error: {error}</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-100">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-200">
 
       {/* Hero Section */}
       <div className="bg-blue-600 dark:bg-cyan-800 text-white py-12">
