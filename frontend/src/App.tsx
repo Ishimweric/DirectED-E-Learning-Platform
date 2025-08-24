@@ -20,6 +20,10 @@ import PasswordResetPage from "./pages/auth/PasswordResetPage"
 import { StudentDashboardPage } from "./pages/student/StudentDashboardPage"
 import MyCoursesPage from "./pages/student/MyCoursesPage"
 
+// Instructor pages
+import { InstructorDashboardPage } from "./pages/instructor/InstructorDashboardPage"
+import { InstructorProfilePage } from "./pages/instructor/InstructorProfilePage"
+
 // Shared pages
 import ProfilePage from "./pages/shared/ProfilePage"
 import NotificationsPage from "./pages/shared/NotificationPage"
@@ -58,6 +62,24 @@ function App() {
               }
             />
 
+            {/* Instructor Protected Routes */}
+            <Route
+              path="/instructor/dashboard"
+              element={
+                <ProtectedRoute requiredRole="instructor">
+                  <InstructorDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/instructor/profile"
+              element={
+                <ProtectedRoute requiredRole="instructor">
+                  <InstructorProfilePage />
+                </ProtectedRoute>
+              }
+            />
+
             {/* Shared Protected Routes */}
             <Route
               path="/profile"
@@ -81,7 +103,7 @@ function App() {
           </Routes>
         </div>
       </AuthProvider>
-    </ThemeProvider>
+    // </ThemeProvider>
   )
 }
 
