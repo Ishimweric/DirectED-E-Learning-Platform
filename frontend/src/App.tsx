@@ -20,12 +20,14 @@ import CreateQuiz from './pages/CreateQuiz';
 import TakeQuiz from './pages/TakeQuiz';
 import CertificatePage from './pages/CertificatePage';
 import FloatingChatbot from './components/Layout/FloatingChatbot';
+import { CourseProvider } from './contexts/CourseContext';
 
 
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
+        <CourseProvider>
         <Router>
           <Layout>
             <Routes>
@@ -36,7 +38,7 @@ function App() {
                 <Route path="/courses" element={<CourseCatalog />} />
                 <Route path="/courses/:id" element={<CourseDetail />} />
                 <Route path="/learn/:courseId/:lessonId" element={<LessonPlayer />} />
-                <Route path="/learn/courseId" element={<LessonPlayer />}/>
+                <Route path="/learn/courseId" element={<CourseDetail />}/>
                 <Route path="/progress" element={<ProgressPage />} />
                 <Route path="/instructor-profile" element={<InstructorProfile />} />
                 <Route path="/instructor-dashboard" element={<InstructorDashboard/>}/>
@@ -51,6 +53,7 @@ function App() {
             <Footer/>
           </Layout>
         </Router>
+        </CourseProvider>
       </AuthProvider>
     </ThemeProvider>
   );
