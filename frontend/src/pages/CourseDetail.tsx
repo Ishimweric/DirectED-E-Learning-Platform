@@ -46,6 +46,7 @@ const CourseDetail: React.FC = () => {
   const [enrolled, setEnrolled] = useState(false);
   const { loadCourse, currentCourse } = useCourse();
   const navigate = useNavigate();
+  let firstLessonId;
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -81,7 +82,7 @@ const CourseDetail: React.FC = () => {
       // Navigate to the first lesson of the course
       if (currentCourse && currentCourse.lessons && currentCourse.lessons.length > 0) {
         console.log("reached in lesson", currentCourse.lessons.length);
-        const firstLessonId = currentCourse.lessons[0];
+        firstLessonId = currentCourse.lessons[0];
         navigate(`/learn/${id}/${firstLessonId}`);
       } else {
         // If no lessons, navigate to the course overview
@@ -189,7 +190,7 @@ const CourseDetail: React.FC = () => {
               
               {enrolled ? (
                 <Link
-                  to={`/learn/${course._id}`}
+                  to={`/learn/${course._id}/${firstLessonId}`}
                   className="block w-full bg-green-600 text-white text-center py-3 rounded font-semibold mb-4"
                 >
                   Continue Learning
