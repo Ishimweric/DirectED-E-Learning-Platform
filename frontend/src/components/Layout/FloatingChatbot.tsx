@@ -25,9 +25,8 @@ const FloatingChatbot: React.FC = () => {
   const [currentRequestType, setCurrentRequestType] = useState<string>('general inquiry');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Configuration for the custom endpoint
-  const CUSTOM_ENDPOINT = 'https://your-api-endpoint.com/api/chat'; // Replace with your actual endpoint
 
+  const CUSTOM_ENDPOINT = 'https://directed-tutoring-bot.onrender.com/api/assistant/chat';
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       fetchChatHistory();
@@ -68,30 +67,24 @@ const FloatingChatbot: React.FC = () => {
     const currentInput = input;
     const requestType = currentRequestType;
     setInput('');
-    // Don't reset currentRequestType here so the button stays selected
     setIsLoading(true);
     setError('');
 
     try {
-      // Custom POST request with your specified format
       const customPayload = {
-        input: {
-          user_id: "12345",
-          user_type: "student",
-          request_type: requestType,
-          subject: "",
-          query: currentInput,
-          auto_detect_topic: true,
-          difficulty_level: "intermediate"
-        }
+        user_id: "12345",
+        user_type: "student",
+        request_type: requestType,
+        subject: "",
+        auto_detect_topic: true,
+        difficulty_level: "intermediate",
+        query: currentInput,
       };
 
       const response = await fetch(CUSTOM_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Add any authorization headers if needed
-          // 'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(customPayload)
       });
@@ -102,7 +95,6 @@ const FloatingChatbot: React.FC = () => {
 
       const responseData = await response.json();
 
-      // Extract the conversation_response from the output object
       const aiResponseContent = responseData.output?.conversation_response || 'No response received';
 
       const aiMessage: Message = {
@@ -139,7 +131,6 @@ const FloatingChatbot: React.FC = () => {
   ];
 
   const handleSuggestionClick = (requestType: string) => {
-    // Don't change input, just set the request type and mark as selected
     setCurrentRequestType(requestType);
   };
 
@@ -200,8 +191,8 @@ const FloatingChatbot: React.FC = () => {
                       key={index}
                       onClick={() => handleSuggestionClick(item.requestType)}
                       className={`border p-2 rounded text-xs text-left transition-colors ${currentRequestType === item.requestType
-                          ? 'bg-blue-100 border-blue-300 text-blue-800'
-                          : 'bg-white border-gray-200 hover:border-blue-200 hover:bg-blue-50'
+                        ? 'bg-blue-100 border-blue-300 text-blue-800'
+                        : 'bg-white border-gray-200 hover:border-blue-200 hover:bg-blue-50'
                         }`}
                     >
                       {item.question}
@@ -218,8 +209,8 @@ const FloatingChatbot: React.FC = () => {
                   >
                     <div
                       className={`max-w-[80%] rounded-lg p-2 text-sm ${message.role === 'user'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white text-gray-800 border border-gray-200'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-white text-gray-800 border border-gray-200'
                         }`}
                     >
                       <p className="whitespace-pre-wrap">{message.content}</p>
