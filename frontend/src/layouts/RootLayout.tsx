@@ -1,7 +1,7 @@
 import type React from "react"
 import  GeistSans  from "geist/font/sans"
 import { AuthProvider } from "../context/AuthContext"
-import { ThemeProvider } from "../context/ThemeContext"
+// import { ThemeProvider } from "../context/ThemeContext"
 import { DashboardLayout } from "../components/layouts/DashboardLayout"
 import "./globals.css"
 
@@ -24,11 +24,11 @@ html {
         `}</style>
       </head>
       <body className={`${GeistSans.variable}  antialiased`}>
-        <ThemeProvider>
+        {/* <ThemeProvider> */}
           <AuthProvider>
             <DashboardLayout>{children}</DashboardLayout>
           </AuthProvider>
-        </ThemeProvider>
+        {/* </ThemeProvider> */}
       </body>
     </html>
   )
