@@ -98,7 +98,7 @@ const CourseDetail: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6 mb-6">
               <h1 className="text-3xl font-bold mb-4 dark:text-white">{course.title}</h1>
               <p className="text-gray-600 mb-4 dark:text-white">{course.description}</p>
               
@@ -151,7 +151,7 @@ const CourseDetail: React.FC = () => {
             </div>
 
             {/* Course Curriculum */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6">
               <h2 className="text-2xl font-bold mb-4">Course Curriculum</h2>
               <div className="space-y-3">
                 {course.lessons.map(lesson => (
@@ -169,7 +169,7 @@ const CourseDetail: React.FC = () => {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
+            <div className="bg-white rounded-lg shadow-md p-6 sticky top-4 dark:bg-dark-200">
               <video src={course.thumbnail} controls className="w-full h-48 object-cover rounded mb-4" />
               <p className="text-3xl font-bold text-blue-600 mb-4">${course.price}</p>
               
