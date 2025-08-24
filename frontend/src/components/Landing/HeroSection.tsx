@@ -29,7 +29,7 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
       <div className='w-1/3 p-5 hidden md:flex'>
-        <img src={"../../../public/image.png"}/>
+        <img src={"/image.png"}/>
       </div>
     </section>
   );
