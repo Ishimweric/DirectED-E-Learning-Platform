@@ -12,6 +12,7 @@ export const SignupPage: React.FC = () => {
     fullName: "",
     email: "",
     password: "",
+    confirmPassword: "",
     role: "student",
   })
 
@@ -30,16 +31,17 @@ export const SignupPage: React.FC = () => {
   return (
     <AuthLayout title="Create Your Account" subtitle="Join DirectEd and start learning today">
       <form onSubmit={handleSubmit} className="space-y-6">
-       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-  <input
-    type="text"
-    placeholder="Test typing"
-    className="border p-2 w-full"
-  />
-</div>
+        <Input
+          label="Full name*"
+          type="text"
+          name="fullName"
+          value={formData.fullName}
+          onChange={handleChange}
+          required
+        />
 
         <Input
-          label="Email Address"
+          label="Email address*"
           type="email"
           name="email"
           value={formData.email}
@@ -48,7 +50,7 @@ export const SignupPage: React.FC = () => {
         />
 
         <Input
-          label="Password"
+          label="Password*"
           type="password"
           name="password"
           value={formData.password}
@@ -56,43 +58,71 @@ export const SignupPage: React.FC = () => {
           required
         />
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-green-700 mb-1">
+        <Input
+          label="Confirm password*"
+          type="password"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          required
+        />
+
+        <div className="space-y-3">
+          <label className="block text-sm font-medium text-gray-700">
             Account Type <span className="text-red-500">*</span>
           </label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-          >
-            <option value="student">Student - I want to learn new skills</option>
-            <option value="instructor">Instructor - I want to teach and share knowledge</option>
-          </select>
+          <div className="space-y-2">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="role"
+                value="student"
+                checked={formData.role === "student"}
+                onChange={handleChange}
+                className="mr-3 text-green-600 focus:ring-green-500"
+              />
+              <span className="text-sm text-gray-700">Student - I want to learn new skills.</span>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="role"
+                value="instructor"
+                checked={formData.role === "instructor"}
+                onChange={handleChange}
+                className="mr-3 text-green-600 focus:ring-green-500"
+              />
+              <span className="text-sm text-gray-700">Instructor - I want to teach and share knowledge.</span>
+            </label>
+          </div>
         </div>
 
-        <div className="flex items-center">
-          <input type="checkbox" className="rounded border-gray-300 text-primary focus:ring-primary" required />
+        <div className="flex items-start">
+          <input 
+            type="checkbox" 
+            className="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500" 
+            required 
+          />
           <span className="ml-2 text-sm text-gray-600">
-            I agree to the{" "}
-            <Link to="/terms" className="text-primary hover:underline">
+            By creating an account, you agree to our{" "}
+            <Link to="/terms" className="text-green-600 hover:underline">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link to="/privacy" className="text-primary hover:underline">
+            <Link to="/privacy" className="text-green-600 hover:underline">
               Privacy Policy
             </Link>
           </span>
         </div>
 
-        <Button type="submit" className="w-full text-bg-green">
+        <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
           Create Account
         </Button>
 
         <div className="text-center">
           <span className="text-gray-600">Already have an account? </span>
-          <Link to="/auth/login" className="text-primary hover:underline">
-            Sign in
+          <Link to="/auth/login" className="text-green-600 hover:underline">
+            Sign in here
           </Link>
         </div>
       </form>

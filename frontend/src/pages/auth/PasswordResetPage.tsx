@@ -3,90 +3,110 @@
 import type React from "react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { AuthLayout } from "../../components/layouts/AuthLayout"
 import { Button } from "../../components/common/Button"
 import { Input } from "../../components/common/Input"
 
-const PasswordResetPage: React.FC = () => {
+export default function PasswordResetPage() {
+  const [step, setStep] = useState<"email" | "otp">("email")
   const [email, setEmail] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [isEmailSent, setIsEmailSent] = useState(false)
+  const [otp, setOtp] = useState(["", "", "", ""])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
+    console.log("Sending reset code to:", email)
+    setStep("otp")
+  }
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      setIsEmailSent(true)
-    }, 2000)
+  const handleOtpSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log("Verifying OTP:", otp.join(""))
+  }
+
+  const handleOtpChange = (index: number, value: string) => {
+    if (value.length <= 1) {
+      const newOtp = [...otp]
+      newOtp[index] = value
+      setOtp(newOtp)
+      
+      // Auto-focus next input
+      if (value && index < 3) {
+        const nextInput = document.querySelector(`input[name="otp-${index + 1}"]`) as HTMLInputElement
+        if (nextInput) nextInput.focus()
+      }
+    }
+  }
+
+  if (step === "otp") {
+    return (
+      <AuthLayout title="Enter Verification Code" subtitle="We've sent a 4-digit code to your email">
+        <form onSubmit={handleOtpSubmit} className="space-y-6">
+          <div className="space-y-4">
+            <div className="flex justify-center gap-3">
+              {otp.map((digit, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  name={`otp-${index}`}
+                  value={digit}
+                  onChange={(e) => handleOtpChange(index, e.target.value)}
+                  className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg font-semibold"
+                  maxLength={1}
+                  required
+                />
+              ))}
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">A</span>
+              </div>
+              <div className="w-8 h-0.5 bg-blue-500"></div>
+            </div>
+          </div>
+
+          <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
+            Verify
+          </Button>
+
+          <div className="text-center">
+            <span className="text-gray-600">Didn't receive the code? </span>
+            <button type="button" className="text-green-600 hover:underline">
+              Resend
+            </button>
+          </div>
+        </form>
+      </AuthLayout>
+    )
   }
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left side - Image */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-600 to-green-800 relative">
-        <div className="absolute inset-0 bg-black/20" />
-        <img
-          src="/placeholder.svg?height=800&width=600"
-          alt="Learning together"
-          className="w-full h-full object-cover"
+    <AuthLayout title="Reset Password" subtitle="Enter your email address and we'll send you a code to reset your password">
+      <form onSubmit={handleEmailSubmit} className="space-y-6">
+        <Input
+          label="Email*"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
         />
-        <div className="absolute bottom-8 left-8 text-white">
-          <h2 className="text-2xl font-bold mb-2">Your learning journey starts here.</h2>
-          <p className="text-green-100">
-            Start your educational journey with DirectEd and unlock your potential through expert-led courses and
-            immersive learning experiences.
-          </p>
+
+        <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
+          Send Reset Code
+        </Button>
+
+        <div className="text-center">
+          <span className="text-gray-600">Remember your password? </span>
+          <Link to="/auth/login" className="text-green-600 hover:underline">
+            Back to Login
+          </Link>
         </div>
-      </div>
 
-      {/* Right side - Reset Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Reset Password</h1>
-            <p className="text-gray-600">Enter your email address and we'll send you a link to reset your password.</p>
-          </div>
-
-          {!isEmailSent ? (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <Input
-                type="email"
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Sending..." : "Send Reset Link"}
-              </Button>
-
-              <div className="text-center">
-                <Link to="/auth/login" className="text-green-600 hover:text-green-700 text-sm">
-                  Back to Login
-                </Link>
-              </div>
-            </form>
-          ) : (
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Check your email</h2>
-              <p className="text-gray-600 mb-6">We've sent a password reset link to {email}</p>
-              <Link to="/auth/login" className="text-green-600 hover:text-green-700">
-                Back to Login
-              </Link>
-            </div>
-          )}
+        <div className="flex justify-center">
+          <Button type="button" className="bg-green-600 hover:bg-green-700">
+            CONTINUE
+          </Button>
         </div>
-      </div>
-    </div>
+      </form>
+    </AuthLayout>
   )
 }
-
-export default PasswordResetPage

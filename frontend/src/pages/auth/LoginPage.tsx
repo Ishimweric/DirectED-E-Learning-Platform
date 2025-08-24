@@ -49,21 +49,21 @@ export const LoginPage: React.FC = () => {
 
         <div className="flex items-center justify-between">
           <label className="flex items-center">
-            <input type="checkbox" className="rounded border-gray-300 text-primary focus:ring-primary" />
+            <input type="checkbox" className="rounded border-gray-300 text-green-600 focus:ring-green-500" />
             <span className="ml-2 text-sm text-gray-600">Remember me</span>
           </label>
-          <Link to="/auth/forgot-password" className="text-sm text-primary hover:underline">
+          <Link to="/auth/reset-password" className="text-sm text-green-600 hover:underline">
             Forgot password?
           </Link>
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
           Sign In
         </Button>
 
         <div className="text-center">
           <span className="text-gray-600">Don't have an account? </span>
-          <Link to="/auth/signup" className="text-primary hover:underline">
+          <Link to="/auth/signup" className="text-green-600 hover:underline">
             Sign up
           </Link>
         </div>
@@ -79,11 +79,11 @@ export const LoginPage: React.FC = () => {
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-3">
-            <Button variant="outline" className="w-full bg-transparent">
+            <Button variant="outline" className="w-full bg-transparent border-gray-300 hover:bg-gray-50">
               <span className="mr-2">G</span>
               Google
             </Button>
-            <Button variant="outline" className="w-full bg-transparent">
+            <Button variant="outline" className="w-full bg-transparent border-gray-300 hover:bg-gray-50">
               <span className="mr-2">f</span>
               Facebook
             </Button>
