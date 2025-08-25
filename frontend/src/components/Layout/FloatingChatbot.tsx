@@ -26,7 +26,7 @@ const FloatingChatbot: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
 
-  const CUSTOM_ENDPOINT = 'https://directed-tutoring-bot.onrender.com/api/assistant/chat';
+  const CUSTOM_ENDPOINT = 'https://55a07ac5435a.ngrok-free.app/api/assistant/chat';
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       fetchChatHistory();
@@ -85,6 +85,7 @@ const FloatingChatbot: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
         },
         body: JSON.stringify(customPayload)
       });
@@ -95,7 +96,8 @@ const FloatingChatbot: React.FC = () => {
 
       const responseData = await response.json();
 
-      const aiResponseContent = responseData.output?.conversation_response || 'No response received';
+      console.log('API response data:', responseData);
+      const aiResponseContent = responseData.conversation_response || 'No response received';
 
       const aiMessage: Message = {
         _id: 'ai-' + Date.now(),
