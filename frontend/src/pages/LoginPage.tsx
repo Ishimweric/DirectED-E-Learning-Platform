@@ -22,6 +22,7 @@ const LoginPage: React.FC = () => {
   } = useForm<LoginForm>();
 
   useEffect(() => {
+    console.log(user?.firstName, "Not found")
     if (user) {
       navigate('/courses');
     }
