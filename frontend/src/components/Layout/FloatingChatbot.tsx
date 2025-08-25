@@ -22,7 +22,7 @@ const FloatingChatbot: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [currentRequestType, setCurrentRequestType] = useState<string>('general inquiry');
+  const [currentRequestType, setCurrentRequestType] = useState<string>('conversations');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
 
@@ -126,7 +126,7 @@ const FloatingChatbot: React.FC = () => {
   };
 
   const suggestedQuestions = [
-    { question: "Please tutor me on this subject", requestType: "conversations" },
+    { question: "Please tutor me on this subject", requestType: "tutoring" },
     { question: "Generate a quiz based on this topic", requestType: "quiz generation" },
     { question: "Analyse this content for me", requestType: "content analysis" },
     { question: "Make flashcards for me on this topic", requestType: "flashcard creation" },
