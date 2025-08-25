@@ -1,4 +1,3 @@
-// src/pages/LessonPlayer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { PlayIcon, PauseIcon, ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
@@ -211,7 +210,6 @@ const LessonPlayer: React.FC = () => {
             <div className="bg-gray-800 rounded-lg p-4">
               <h3 className="text-lg font-bold mb-4">Course Content</h3>
               <div className="space-y-2">
-                {/* This would typically come from the course data */}
                 <div className="p-2 bg-blue-600 rounded">
                   <p className="text-sm">{lesson.title}</p>
                   <div className="w-full bg-gray-600 rounded-full h-1 mt-1">
@@ -224,7 +222,7 @@ const LessonPlayer: React.FC = () => {
               </div>
             </div>
             
-            {/* Notes Section */}
+            {/* Notes Section to be continued */}
             <div className="bg-gray-800 rounded-lg p-4 mt-4">
               <h3 className="text-lg font-bold mb-3">Notes</h3>
               <textarea
