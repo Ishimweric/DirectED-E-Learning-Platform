@@ -25,7 +25,7 @@ const LoginPage: React.FC = () => {
     if (user) {
       navigate('/courses');
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const onSubmit = async (data: LoginForm) => {
     try {
