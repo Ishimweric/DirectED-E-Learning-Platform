@@ -37,8 +37,8 @@ const LoginPage: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-8 flex-1 md:flex hidden  items-center justify-center flex-col px-3 gap-4">
           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center">
-              <img src='/logo.png' className="text-white font-bold text-2xl"/>
+            <div className="p-4 bg-blue-600 rounded-xl flex items-center justify-center">
+              <img src='/logo.png' className="text-white font-bold text-2xl h-10"/>
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
