@@ -1,0 +1,17 @@
+langchain
+langchain-community
+langchain-groq
+langserve
+langsmith
+langgraph
+chromadb
+langchain-huggingface
+huggingface-hub
+fastapi
+pydantic
+uvicorn
+python-dotenv
+pypdf
+sentence-transformers
+sse-starlette
+
