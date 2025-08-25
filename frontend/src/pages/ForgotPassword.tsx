@@ -37,11 +37,6 @@ const ForgotPasswordPage: React.FC = () => {
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <div className="p-4 bg-blue-600 rounded-xl flex items-center justify-center">
-              <img src='/logo.png' className="text-white font-bold text-2xl h-10"/>
-            </div>
-          </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Reset Your Password
           </h1>
