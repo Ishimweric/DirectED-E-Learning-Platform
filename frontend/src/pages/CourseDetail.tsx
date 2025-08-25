@@ -194,7 +194,8 @@ const CourseDetail: React.FC = () => {
               
               {enrolled ? (
                 <Link
-                  to={`/learn/${course._id}/${firstLessonId}`}
+                  // to={`/learn/${course._id}/${firstLessonId}`} , down is a hardcoded value to be changed later
+                  to={`/learn/68a9e18536cf2833177e58cf/68a9f4c9798f513c5c8709db`}
                   className="block w-full bg-green-600 text-white text-center py-3 rounded font-semibold mb-4"
                 >
                   Continue Learning
