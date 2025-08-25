@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,7 +12,7 @@ interface LoginForm {
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   
   const {
@@ -21,17 +21,11 @@ const LoginPage: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<LoginForm>();
 
-  useEffect(() => {
-    console.log(user?.firstName, "Not found")
-    if (user) {
-      navigate('/courses');
-    }
-  }, [user]);
-
   const onSubmit = async (data: LoginForm) => {
     try {
       setError('');
       await login(data.email, data.password);
+      navigate('/courses');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     }
