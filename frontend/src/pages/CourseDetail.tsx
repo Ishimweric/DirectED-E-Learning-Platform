@@ -174,13 +174,13 @@ const CourseDetail: React.FC = () => {
               <h2 className="text-2xl font-bold mb-4 dark:text-white">Course Curriculum</h2>
               <div className="space-y-3">
                 {course.lessons.map(lesson => (
-                  <div key={lesson._id} className="flex justify-between items-center p-3 border rounded">
+                  <Link to={`/learn/${course._id}/${lesson._id}`} key={lesson._id} className="flex hover:opacity-85 justify-between items-center p-3 border rounded">
                     <div>
                       <h4 className="font-semibold dark:text-gray-100">{lesson.title}</h4>
                       <p className="text-sm text-gray-600 dark:text-gray-200">{lesson.description}</p>
                     </div>
                     <span className="text-gray-500 dark:text-white">{lesson.duration} min</span>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -194,7 +194,8 @@ const CourseDetail: React.FC = () => {
               
               {enrolled ? (
                 <Link
-                  to={`/learn/${course._id}/${firstLessonId}`}
+                  // to={`/learn/${course._id}/${firstLessonId}`} , down is a hardcoded value to be changed later
+                  to={`/learn/68a9e18536cf2833177e58cf/68a9f4c9798f513c5c8709db`}
                   className="block w-full bg-green-600 text-white text-center py-3 rounded font-semibold mb-4"
                 >
                   Continue Learning
