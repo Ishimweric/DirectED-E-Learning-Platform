@@ -4,8 +4,7 @@ A comprehensive, full-stack e-learning platform built with modern web technologi
 
 ## 🌐 Live Demo
 
-- **Frontend**: [https://directed-e-learning-platform.vercel.app](https://directed-e-learning-platform.vercel.app)
-- **Backend API**: [https://directed-backend.onrender.com](https://directed-backend.onrender.com)
+- **Live link**: [DirectED Learning](https://directed.netlify.app/)
 
 ## 🚀 Features
 
